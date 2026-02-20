@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APavan_Ancoragem de Armaduras — NBR 6118</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #161b22;
+    --border: #30363d;
+    --accent: #f0a500;
+    --accent2: #3fb950;
+    --accent3: #58a6ff;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --danger: #f85149;
+    --panel2: #1c2128;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--panel);
+  }
+  .header-icon {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .header h1 {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+  .header span {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: auto;
+  }
+
+  /* MAIN LAYOUT */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  /* SECTION */
+  .section {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background: var(--panel2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-header::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .section-body { padding: 20px; }
+
+  /* FULL WIDTH */
+  .full-width { grid-column: 1 / -1; }
+
+  /* FORM */
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    font-family: var(--mono);
+    color: var(--muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+  .form-group label .unit {
+    color: var(--accent);
+    font-size: 11px;
+  }
+  select, input[type="number"] {
+    width: 100%;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 9px 12px;
+    transition: border-color 0.15s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  select:focus, input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(240,165,0,0.15);
+  }
+  select option { background: var(--panel2); }
+
+  /* RADIO PILLS */
+  .radio-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .radio-group input { display: none; }
+  .radio-group label {
+    margin: 0;
+    padding: 7px 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    transition: all 0.15s;
+    background: var(--panel2);
+  }
+  .radio-group input:checked + label {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(240,165,0,0.1);
+  }
+  .radio-group label:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* CALCULATE BTN */
+  .btn-calc {
+    width: 100%;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+  }
+  .btn-calc:hover { background: #ffbb33; transform: translateY(-1px); }
+  .btn-calc:active { transform: translateY(0); }
+
+  /* RESULTS */
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .result-card {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .result-card .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .result-card .value {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent2);
+  }
+  .result-card .value.warn { color: var(--accent); }
+  .result-card .value.danger { color: var(--danger); }
+  .result-card .sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* FINAL RESULT BANNER */
+  .final-banner {
+    background: linear-gradient(135deg, rgba(63,185,80,0.15), rgba(63,185,80,0.05));
+    border: 1px solid rgba(63,185,80,0.4);
+    border-radius: 10px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .final-banner .lbl {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .final-banner .val {
+    font-family: var(--mono);
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--accent2);
+    line-height: 1;
+  }
+  .final-banner .note {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  /* STEPS */
+  .step-list { list-style: none; }
+  .step-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .step-list li:last-child { border-bottom: none; }
+  .step-num {
+    width: 24px; height: 24px;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-list .eq {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent3);
+    display: block;
+    margin-top: 3px;
+  }
+
+  /* FORMULA DISPLAY */
+  .formula-box {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent3);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent3);
+    margin-bottom: 16px;
+    line-height: 1.8;
+  }
+
+  /* TABLE */
+  .mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    font-family: var(--mono);
+  }
+  .mini-table th {
+    background: var(--panel2);
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .mini-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(48,54,61,0.5);
+    color: var(--text);
+  }
+  .mini-table tr:last-child td { border-bottom: none; }
+  .mini-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .mini-table .hl { color: var(--accent); font-weight: 600; }
+
+  /* HIDDEN */
+  .hidden { display: none !important; }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 16px 0;
+  }
+
+  /* BADGE */
+  .badge {
+    font-size: 10px;
+    font-family: var(--mono);
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .badge-good { background: rgba(63,185,80,0.15); color: var(--accent2); border: 1px solid rgba(63,185,80,0.3); }
+  .badge-bad  { background: rgba(248,81,73,0.15);  color: var(--danger);  border: 1px solid rgba(248,81,73,0.3); }
+
+  /* WATERMARK */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--border);
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: 700px) {
+    .container { grid-template-columns: 1fr; padding: 16px; }
+    .result-grid { grid-template-columns: 1fr; }
+    .full-width { grid-column: 1; }
+    .final-banner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">AP</div>
+  <div>
+    <h1>APAVAN_ANCORAGEM DAS ARMADURAS</h1>
+    <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:2px">NBR 6118:2023 — Cálculo do Comprimento de Ancoragem</div>
+  </div>
+  <span>v1.0</span>
+</div>
+
+<div class="container">
+
+  <!-- INPUT: CONCRETO -->
+  <div class="section">
+    <div class="section-header">Dados do Concreto</div>
+    <div class="section-body">
+      <div class="form-group">
+        <label>Classe do concreto <span class="unit">[f<sub>ck</sub>]</span></label>
+        <select id="fck">
+          <option value="20">C20 — f<sub>ck</sub> = 20 MPa</option>
+          <option value="25" selected>C25 — f<sub>ck</sub> = 25 MPa</option>
+          <option value="30">C30 — f<sub>ck</sub> = 30 MPa</option>
+          <option value="35">C35 — f<sub>ck</sub> = 35 MPa</option>
+          <option value="40">C40 — f<sub>ck</sub> = 40 MPa</option>
+          <option value="45">C45 — f<sub>ck</sub> = 45 MPa</option>
+          <option value="50">C50 — f<sub>ck</sub> = 50 MPa</option>
+          <option value="55">C55 — f<sub>ck</sub> = 55 MPa</option>
+          <option value="60">C60 — f<sub>ck</sub> = 60 MPa</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Zona de aderência</label>
+        <div class="radio-group">
+          <input type="radio" name="zona" id="z_boa" value="boa" checked>
+          <label for="z_boa">✓ Boa (η₂ = 1,0)</label>
+          <input type="radio" name="zona" id="z_ma" value="ma">
+          <label for="z_ma">✗ Má (η₂ = 0,7)</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Coef. parcial do concreto γ<sub>c</sub></label>
+        <select id="gamac">
+          <option value="1.4" selected>1,4 — Situação normal</option>
+          <option value="1.2">1,2 — Situação especial</option>
+          <option value="1.0">1,0 — Situação excepcional</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- INPUT: ARMADURA -->
+  <div class="section">
+    <div class="section-header">Dados da Armadura</div>
+    <div class="section-body">
+      <div class="form-group">
+        <label>Tipo de aço</label>
+        <div class="radio-group">
+          <input type="radio" name="aco" id="a25" value="25">
+          <label for="a25">CA-25</label>
+          <input type="radio" name="aco" id="a50" value="50" checked>
+          <label for="a50">CA-50</label>
+          <input type="radio" name="aco" id="a60" value="60">
+          <label for="a60">CA-60</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Diâmetro da barra Ø <span class="unit">[mm]</span></label>
+        <select id="diam">
+          <option value="6.3">6,3 mm</option>
+          <option value="8">8,0 mm</option>
+          <option value="10">10,0 mm</option>
+          <option value="12.5">12,5 mm</option>
+          <option value="16">16,0 mm</option>
+          <option value="20">20,0 mm</option>
+          <option value="25" selected>25,0 mm</option>
+          <option value="32">32,0 mm</option>
+          <option value="40">40,0 mm</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Tipo de barra</label>
+        <div class="radio-group">
+          <input type="radio" name="tipo" id="t_reta" value="reta" checked>
+          <label for="t_reta">Reta (α₁ = 1,0)</label>
+          <input type="radio" name="tipo" id="t_dobr" value="dobrada">
+          <label for="t_dobr">Dobrada (α₁ = 0,7)</label>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="form-group">
+        <label>A<sub>s,calculado</sub> <span class="unit">[cm²]</span></label>
+        <input type="number" id="as_calc" value="5.0" step="0.01" min="0.01">
+      </div>
+      <div class="form-group">
+        <label>A<sub>s,existente</sub> <span class="unit">[cm²]</span></label>
+        <input type="number" id="as_exist" value="5.0" step="0.01" min="0.01">
+      </div>
+    </div>
+  </div>
+
+  <!-- BTN -->
+  <div class="full-width" style="padding:0 0 4px">
+    <button class="btn-calc" onclick="calcular()">▶ CALCULAR COMPRIMENTO DE ANCORAGEM</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="section full-width hidden" id="results">
+    <div class="section-header">Resultados do Cálculo</div>
+    <div class="section-body">
+
+      <div class="result-grid" id="result-grid"></div>
+
+      <div id="final-banner"></div>
+
+      <div class="divider"></div>
+
+      <div style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">
+        ◈ Memorial de Cálculo
+      </div>
+      <ul class="step-list" id="step-list"></ul>
+
+    </div>
+  </div>
+
+  <!-- TABELA CA-50 -->
+  <div class="section full-width">
+    <div class="section-header">Tabela de Referência — CA-50 (NBR 6118)</div>
+    <div class="section-body">
+      <table class="mini-table" id="ref-table">
+        <thead>
+          <tr>
+            <th>Zona</th><th>Barra</th>
+            <th>C20</th><th>C25</th><th>C30</th><th>C35</th><th>C40</th><th>C45</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Boa</td><td>Reta</td><td>44ø</td><td>38ø</td><td>33ø</td><td>30ø</td><td>28ø</td><td>25ø</td></tr>
+          <tr><td>Boa</td><td>Dobrada</td><td>31ø</td><td>26ø</td><td>25ø</td><td>25ø</td><td>25ø</td><td>25ø</td></tr>
+          <tr><td>Má</td><td>Reta</td><td>62ø</td><td>54ø</td><td>48ø</td><td>43ø</td><td>39ø</td><td>36ø</td></tr>
+          <tr><td>Má</td><td>Dobrada</td><td>44ø</td><td>38ø</td><td>33ø</td><td>30ø</td><td>28ø</td><td>25ø</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:10px;font-size:11px;color:var(--muted);">
+        ᵃ Comprimento típico nas armaduras negativas de vigas &nbsp;|&nbsp; ᵇ Comprimento típico de emenda por traspasse em pilares
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="footer">CÁLCULO CONFORME NBR 6118:2023 — APENAS PARA FINS DE PROJETO E VERIFICAÇÃO</div>
+
+<script>
+function calcular() {
+  // --- Inputs ---
+  const fck    = parseFloat(document.getElementById('fck').value);
+  const zona   = document.querySelector('input[name="zona"]:checked').value;
+  const gamac  = parseFloat(document.getElementById('gamac').value);
+  const aco    = document.querySelector('input[name="aco"]:checked').value;
+  const diam   = parseFloat(document.getElementById('diam').value);
+  const tipo   = document.querySelector('input[name="tipo"]:checked').value;
+  const as_c   = parseFloat(document.getElementById('as_calc').value);
+  const as_e   = parseFloat(document.getElementById('as_exist').value);
+
+  if(isNaN(as_c)||isNaN(as_e)||as_c<=0||as_e<=0) {
+    alert('Verifique os valores de As inseridos.'); return;
+  }
+
+  // --- η1: tipo de aço ---
+  const eta1 = aco === '25' ? 1.0 : aco === '50' ? 2.25 : 1.4;
+  // --- η2: zona ---
+  const eta2 = zona === 'boa' ? 1.0 : 0.7;
+  // --- η3: diâmetro ---
+  const eta3 = diam < 32 ? 1.0 : Math.max((132 - diam) / 100, 0);
+  // --- α1: tipo barra ---
+  const alpha1 = tipo === 'reta' ? 1.0 : 0.7;
+
+  // --- fyd ---
+  const fyk = aco === '25' ? 250 : aco === '50' ? 500 : 600;
+  const gamas = 1.15;
+  const fyd = fyk / gamas;
+
+  // --- fctm ---
+  let fctm;
+  if (fck <= 50) fctm = 0.3 * Math.pow(fck, 2/3);
+  else           fctm = 2.12 * Math.log(1 + 0.11 * fck);
+
+  const fctk_inf = 0.7 * fctm;
+  const fctd = fctk_inf / gamac;
+
+  // --- fbd ---
+  const fbd = eta1 * eta2 * eta3 * fctd;
+
+  // --- lb básico ---
+  const lb_raw = (diam / 10) * fyd / (4 * fbd * 10); // em cm: ø em cm, fyd/fbd
+  // ø em mm → cm: diam/10; fyd e fbd em MPa → razão adimensional
+  // lb = (ø * fyd) / (4 * fbd)  → mm → cm: dividir por 10
+  const lb_formula = (diam * fyd) / (4 * fbd); // resultado em mm
+  const lb_mm = Math.max(lb_formula, 25 * diam); // mínimo 25ø
+  const lb_cm = lb_mm / 10;
+
+  // --- lb necessário ---
+  const ratio = as_c / as_e;
+  const lb_nec_raw = alpha1 * lb_cm * ratio;
+
+  // lb,min = max(0.3*lb, 10ø, 10cm)
+  const lb_min1 = 0.3 * lb_cm;
+  const lb_min2 = 10 * diam / 10; // 10ø em cm
+  const lb_min3 = 10;
+  const lb_min = Math.max(lb_min1, lb_min2, lb_min3);
+
+  const lb_nec = Math.max(lb_nec_raw, lb_min);
+  const lb_nec_m = lb_nec / 100;
+
+  // --- Render results ---
+  const rg = document.getElementById('result-grid');
+  const fmt = v => v.toFixed(3);
+  const fmt2 = v => v.toFixed(2);
+
+  rg.innerHTML = `
+    <div class="result-card">
+      <div class="label">f<sub>ctm</sub> — Resist. tração média</div>
+      <div class="value">${fmt2(fctm)}</div>
+      <div class="sub">MPa</div>
+    </div>
+    <div class="result-card">
+      <div class="label">f<sub>ctd</sub> — Resist. tração projeto</div>
+      <div class="value">${fmt2(fctd)}</div>
+      <div class="sub">MPa</div>
+    </div>
+    <div class="result-card">
+      <div class="label">f<sub>bd</sub> — Resist. aderência cálculo</div>
+      <div class="value warn">${fmt2(fbd)}</div>
+      <div class="sub">MPa &nbsp;|&nbsp; η₁=${fmt2(eta1)} η₂=${eta2} η₃=${fmt2(eta3)}</div>
+    </div>
+    <div class="result-card">
+      <div class="label">f<sub>yd</sub> — Resist. escoamento cálculo</div>
+      <div class="value">${fmt2(fyd)}</div>
+      <div class="sub">MPa &nbsp;|&nbsp; f<sub>yk</sub>/${gamas}</div>
+    </div>
+    <div class="result-card">
+      <div class="label">ℓ<sub>b</sub> — Comprimento básico</div>
+      <div class="value warn">${fmt2(lb_cm)}</div>
+      <div class="sub">cm &nbsp;|&nbsp; (${fmt2(lb_cm/diam*10)}ø)</div>
+    </div>
+    <div class="result-card">
+      <div class="label">ℓ<sub>b,min</sub> — Comprimento mínimo</div>
+      <div class="value">${fmt2(lb_min)}</div>
+      <div class="sub">cm</div>
+    </div>
+  `;
+
+  // Final banner
+  const fb = document.getElementById('final-banner');
+  const governs = lb_nec === lb_min ? 'Governado por ℓ<sub>b,min</sub>' : 'Governado por ℓ<sub>b,necessário</sub>';
+  fb.innerHTML = `
+    <div class="final-banner">
+      <div>
+        <div class="lbl">ℓ<sub>b,necessário</sub> — Comprimento de ancoragem necessário</div>
+        <div class="val">${fmt2(lb_nec)} cm</div>
+        <div style="margin-top:6px;font-size:12px;color:var(--muted)">${governs} &nbsp;(${fmt2(lb_nec_m)} m)</div>
+      </div>
+      <div class="note">
+        Ø = ${diam} mm<br>
+        A<sub>sc</sub>/A<sub>se</sub> = ${fmt2(ratio)}<br>
+        α₁ = ${alpha1}
+      </div>
+    </div>
+  `;
+
+  // Memorial
+  const sl = document.getElementById('step-list');
+  const fckStr = fck <= 50 ? `0,3 × ${fck}^(2/3) = <b>${fmt2(fctm)} MPa</b>` : `2,12 × ln(1 + 0,11 × ${fck}) = <b>${fmt2(fctm)} MPa</b>`;
+  sl.innerHTML = `
+    <li>
+      <div class="step-num">1</div>
+      <div>
+        <b>Resistência à tração média do concreto — f<sub>ctm</sub></b>
+        <span class="eq">f<sub>ctm</sub> = ${fckStr}</span>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div>
+        <b>Resistência característica inferior — f<sub>ctk,inf</sub></b>
+        <span class="eq">f<sub>ctk,inf</sub> = 0,7 × ${fmt2(fctm)} = <b>${fmt2(fctk_inf)} MPa</b></span>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div>
+        <b>Resistência de tração de projeto — f<sub>ctd</sub></b>
+        <span class="eq">f<sub>ctd</sub> = f<sub>ctk,inf</sub> / γ<sub>c</sub> = ${fmt2(fctk_inf)} / ${gamac} = <b>${fmt2(fctd)} MPa</b></span>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">4</div>
+      <div>
+        <b>Coeficientes de aderência</b>
+        <span class="eq">η₁ = ${eta1} (CA-${aco}) &nbsp;|&nbsp; η₂ = ${eta2} (zona ${zona}) &nbsp;|&nbsp; η₃ = ${fmt2(eta3)} (Ø=${diam}mm)</span>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">5</div>
+      <div>
+        <b>Resistência de aderência de cálculo — f<sub>bd</sub></b>
+        <span class="eq">f<sub>bd</sub> = η₁ × η₂ × η₃ × f<sub>ctd</sub> = ${eta1} × ${eta2} × ${fmt2(eta3)} × ${fmt2(fctd)} = <b>${fmt2(fbd)} MPa</b></span>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">6</div>
+      <div>
+        <b>Resistência de escoamento de cálculo do aço — f<sub>yd</sub></b>
+        <span class="eq">f<sub>yd</sub> = f<sub>yk</sub> / γ<sub>s</sub> = ${fyk} / 1,15 = <b>${fmt2(fyd)} MPa</b></span>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">7</div>
+      <div>
+        <b>Comprimento de ancoragem básico — ℓ<sub>b</sub></b>
+        <span class="eq">ℓ<sub>b</sub> = (Ø × f<sub>yd</sub>) / (4 × f<sub>bd</sub>) = (${diam} × ${fmt2(fyd)}) / (4 × ${fmt2(fbd)}) = ${fmt2(lb_formula/10)} cm</span>
+        <span class="eq">Verificação mínima: 25Ø = ${25*diam/10} cm → ℓ<sub>b</sub> = <b>${fmt2(lb_cm)} cm</b></span>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">8</div>
+      <div>
+        <b>Comprimento mínimo de ancoragem — ℓ<sub>b,min</sub></b>
+        <span class="eq">max(0,3 × ${fmt2(lb_cm)}; 10 × ${diam/10}; 10) = max(${fmt2(lb_min1)}; ${fmt2(lb_min2)}; 10) = <b>${fmt2(lb_min)} cm</b></span>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">9</div>
+      <div>
+        <b>Comprimento de ancoragem necessário — ℓ<sub>b,necessário</sub></b>
+        <span class="eq">ℓ<sub>b,nec</sub> = α₁ × ℓ<sub>b</sub> × (A<sub>sc</sub>/A<sub>se</sub>) = ${alpha1} × ${fmt2(lb_cm)} × (${as_c}/${as_e}) = ${fmt2(lb_nec_raw)} cm</span>
+        <span class="eq">Adotado: max(${fmt2(lb_nec_raw)}; ${fmt2(lb_min)}) = <b>${fmt2(lb_nec)} cm = ${fmt2(lb_nec_m)} m</b></span>
+      </div>
+    </li>
+  `;
+
+  document.getElementById('results').classList.remove('hidden');
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+</body>
+</html>
